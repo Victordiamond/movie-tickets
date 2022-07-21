@@ -1,0 +1,99 @@
+
+ @import url('https://fonts.googleapis.com/css2?family=Courgette&family=Quicksand:wght@500&display=swap');
+
+
+body {
+  margin: 10;
+  padding: 8px;
+ 
+}
+
+.card {
+  border: 0;
+  box-shadow: rgb(0 0 0 / 5%) 0px 10px 20px;
+  border-radius: 0px;
+  width: 25rem;
+  
+}
+
+.brand-name {
+  color: black;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: x-large;
+  cursor: pointer;
+}
+
+.balance {
+  color: black;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: x-large;
+  list-style: none;
+  text-decoration: none;
+}
+
+.mb-2 {
+  width: 700px;
+  padding-left: 0px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  background-color: #24252a;
+}
+
+
+.form-control{
+  border-radius: 0px;
+}
+
+.card-title {
+  color: #272c47;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: large;
+}
+
+.card-text {
+  color: #272c47;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 500;
+  font-size: medium;
+}
+.card-texxt {
+  color: #272c47;
+  font-family: sans-serif;
+  font-weight: 500;
+  font-size: medium;
+}
+
+.card-subtitle {
+  color: #272c47;
+}
+
+
+.btn {
+border-radius: 0px;
+font-size: small;
+}
+
+.form-row {
+  width: 400px;
+}
+
+
+.form-roww {
+  width: 200px;
+  align-items: center;
+}
+
+.form-group{
+  padding-left: 0px;
+}
