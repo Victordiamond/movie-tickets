@@ -55,7 +55,7 @@ contract Movietickets {
     }
 
     /// @dev makes sure only movies that exist are queried
-    modifier exist(uint _index){
+    modifier exist(uint _index) {
         require(exists[_index], "Query of non existent movie");
         _;
     }
@@ -74,6 +74,14 @@ contract Movietickets {
         uint _price,
         uint _ticketsAvailable
     ) public {
+        require(_price > 0, "Invalid price");
+        require(bytes(_name).length > 0, "Empty name");
+        require(bytes(_image).length > 0, "Empty image url");
+        require(bytes(_description).length > 0, "Empty description");
+        require(
+            _ticketsAvailable > 0,
+            "At least one ticket has to be available for movie"
+        );
         uint _sold = 0;
         movies[moviesLength] = Movie(
             payable(msg.sender),
@@ -87,16 +95,26 @@ contract Movietickets {
             _ticketsAvailable,
             false
         );
+        exists[moviesLength] = true;
         moviesLength++;
     }
 
     /// @dev returns a movie
-    function getMovie(uint _index) public view exist(_index) returns (Movie memory) {
+    function getMovie(uint _index)
+        public
+        view
+        exist(_index)
+        returns (Movie memory)
+    {
         return movies[_index];
     }
 
     /// @dev to update the price of a movie's tickets
-    function addTickets(uint _index, uint _tickets) external exist(_index) onlyAdmin(_index) {
+    function addTickets(uint _index, uint _tickets)
+        external
+        exist(_index)
+        onlyAdmin(_index)
+    {
         require(_tickets > 0, "number of tickets must be greater than zero");
         movies[_index].ticketsAvailable =
             movies[_index].ticketsAvailable +
@@ -104,7 +122,11 @@ contract Movietickets {
     }
 
     /// @dev changes the sale status of a movie
-    function changeForsale(uint _index) external exist(_index) onlyAdmin(_index) {
+    function changeForsale(uint _index)
+        external
+        exist(_index)
+        onlyAdmin(_index)
+    {
         movies[_index].forSale = !movies[_index].forSale;
     }
 
@@ -116,9 +138,9 @@ contract Movietickets {
         );
         movies[_index] = movies[moviesLength - 1];
         delete movies[moviesLength - 1];
+        exists[_index] = false;
         moviesLength--;
     }
-
 
     /// @dev buys a ticket from a movie
     function buyMovieTicket(uint _index) public payable exist(_index) {
