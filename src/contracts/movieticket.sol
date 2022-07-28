@@ -35,13 +35,18 @@ contract Movietickets {
 
     mapping (uint => Movieticket) internal movies;
 
-        modifier onlyAdmin(uint _index) {
+    modifier onlyAdmin(uint _index) {
         require(msg.sender == movies[_index].Admin, "Only Admin");
         _;
     }
 
+    modifier isTicketAvailable(uint _index, uint _tickets){
+        require(movies[_index].ticketsAvailable > _tickets, "Tickets not sufficient" );
+        _;
+    }
 
-//carring out the function will add a new movie to the mapping
+
+    //carring out the function will add a new movie to the mapping
     function addMovie(
         string memory _name,
         string memory _image,
@@ -62,12 +67,12 @@ contract Movietickets {
             _price,
             _sold,
             _ticketsAvailable,
-            false
+            true
         );
         moviesLength++;
     }
 
-//acquire a Ticket from 
+    //Get details of a movie
     function getMovieticket(uint _index) public view returns (
         address payable,
         string memory, 
@@ -98,26 +103,47 @@ contract Movietickets {
     }
 
     
-// to update price of Ticket
+    // add more tickets to the listing
     function addTickets(uint _index, uint _tickets) external onlyAdmin(_index) {
          require(_tickets > 0, "number of tickets must be greater than zero");
          movies[_index].ticketsAvailable = movies[_index].ticketsAvailable + _tickets;
     }
-
+// carring out this function will either set the price for sale or not forsale
      function changeForsale(uint _index) external onlyAdmin(_index) {
          movies[_index].forSale = !movies[_index].forSale;
     }
 
-// remove a Ticket
-    function removeTicket(uint _index) external {
-	        require(msg.sender == movies[_index].Admin, "Admin alone can reove the ticket");         
-            movies[_index] = movies[moviesLength - 1];
-            delete movies[moviesLength - 1];
-            moviesLength--; 
+    // remove a Ticket sale
+    function removeTicket(uint _index) external onlyAdmin(_index){      
+        movies[_index] = movies[moviesLength - 1];
+        delete movies[moviesLength - 1];
+        moviesLength--; 
 	 }
 
+    // Function using which the user can remove tickets from circulation
+     function blockTickets(uint _index, uint _tickets) external onlyAdmin(_index) isTicketAvailable(_index, _tickets){
+        movies[_index].ticketsAvailable -= _tickets;
+     }
 
-    function buyMovieTicket(uint _index) public payable  {
+
+   // carrying out this function will enable users to buy tickets in bulk
+    function buyBulkMovieTicket(uint _index, uint _tickets) external payable  isTicketAvailable(_index, _tickets){
+        require(movies[_index].forSale == true, "ticket is not for sale");
+        require (msg.sender != movies[_index].Admin, "Admin cannot buy tickets");
+        require(
+          IERC20Token(cUsdTokenAddress).transferFrom(
+            msg.sender,
+            movies[_index].Admin,
+            movies[_index].price * _tickets
+          ),
+          "Transfer failed."
+        );
+        movies[_index].sold= movies[_index].sold + _tickets;
+        movies[_index].ticketsAvailable = movies[_index].ticketsAvailable - _tickets;
+    }
+
+// carrying out this function allows users to buy one ticket at a time.
+     function buyMovieTicket(uint _index) public payable  {
         require(movies[_index].ticketsAvailable > 0, "sold out");
         require(movies[_index].forSale == true, "ticket is not for sale");
         require(
@@ -131,9 +157,8 @@ contract Movietickets {
            movies[_index].sold++;
         movies[_index].ticketsAvailable--;
     }
-
     
     function getTicketsLength() public view returns (uint) {
         return (moviesLength);
     }
-    }
+}

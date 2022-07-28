@@ -5,6 +5,7 @@ import { useState } from "react";
 export const Tickets = ( props ) => {
 
   const [ammount, setAmmount] = useState('');
+ 
 
 
 
@@ -19,17 +20,17 @@ export const Tickets = ( props ) => {
                 alt="Card image cap"
               />
               <div className="card-body">
-                <h5 className="card-title">Movie name: {ticket.name}</h5>
+                <h2 className="card-title">Movie name: {ticket.name}</h2>
                 <h5 className="card-title">Film Industry: {ticket.filmIndustry}</h5>
                 <h5 className="card-title">Movie genre: {ticket.genre}</h5>
                 <h5 className="card-title">{ticket.sold} Tickets Sold</h5>
                 <h5 className="card-title">{ticket.ticketsAvailable} Tickets Available</h5>
-                <h1>Ticket Price <span class="badge badge-secondary">{ticket.price / 1000000000000000000} cUSD</span></h1>
+                <h3>Price per ticket: {ticket.price / 1000000000000000000} cUSD</h3>
                 <p className="card-text">{ticket.description}</p>
 
-                <p className="card-texxt">{ticket.forSale ? "This Recipe is For Sale": "Not for sale"}</p>
+                <p className="card-texxt">{ticket.forSale ? "This Ticket is Available For Sale": "Not for sale"}</p>
               
-                  {props.walletAddress !== ticket.Admin && ticket.forSale === true && (
+                  {props.walletAddress !== ticket.Admin && ticket.forSale === true && ticket.ticketsAvailable !== 0 && (
                   <button
                     onClick={() => props.buyTicket(ticket.index)}
                     className = "btn btn-outline-primary"
@@ -37,6 +38,7 @@ export const Tickets = ( props ) => {
                     Buy Ticket
                   </button>)
                   }
+
                   
                 { props.walletAddress === ticket.Admin &&(
                   <form>
@@ -49,6 +51,9 @@ export const Tickets = ( props ) => {
                 </form>
                 
                        )}
+
+                    
+
                        {
                          props.walletAddress === ticket.Admin &&(
                           <button

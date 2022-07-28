@@ -41,11 +41,11 @@ const [ticketsAvailable, setTicketsAvailable] = useState('');
 <input type="text" class="form-control mt-2" value={ticketsAvailable}
            onChange={(e) => setTicketsAvailable(e.target.value)} placeholder="no of tickets"/>
 
-      <button type="button btn-dark" onClick={()=>props.addmoreTickets(name, image, filmIndustry, genre, description,  price, ticketsAvailable)} class="btn btn-primary mt-2">Add new ticket</button>
+      <button type="button" onClick={()=>props.addTicket(name, image, filmIndustry, genre, description,  price, ticketsAvailable)} class="btn btn-primary mt-2">Add a new ticket</button>
 
   </div>
 </form>
     
     
-  </div>;
+  </div>
 };

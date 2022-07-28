@@ -21,7 +21,7 @@ import IERC from "./contracts/IERC.abi.json";
 
 const ERC20_DECIMALS = 18;
 
-const contractAddress = "0x9D2867E2b0f1Ff7dE7c9b6547C0C30B24C979931";
+const contractAddress = "0x8e8DB5ad6696EFE76F747E5e40Fd1aD7A507FD0f";
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
 
 
@@ -110,15 +110,15 @@ function App() {
             _filmIndustry,
             _genre,
             _description,
-            price,
+            _price,
             _ticketsAvailable,
   ) => {
-    const _price = new BigNumber(price).shiftedBy(ERC20_DECIMALS).toString();
+   
 
 
     try {
-      await contract.methods
-        .addMovie(_name, _image, _filmIndustry, _genre, _description, _price, _ticketsAvailable)
+      let price = new BigNumber(_price).shiftedBy(ERC20_DECIMALS).toString();
+      await contract.methods.addMovie(_name, _image, _filmIndustry, _genre, _description, price, _ticketsAvailable)
         .send({ from: address });
       getTickets();
     } catch (error) {
@@ -138,6 +138,9 @@ function App() {
       alert(error);
     }
   };
+
+
+  
 
 
   const addmoreTickets = async (
@@ -170,6 +173,7 @@ function App() {
           } catch (error) {
             alert(error);
           }};
+
           
 
 

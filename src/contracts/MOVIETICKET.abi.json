@@ -66,6 +66,42 @@
 				"internalType": "uint256",
 				"name": "_index",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tickets",
+				"type": "uint256"
+			}
+		],
+		"name": "blockTickets",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tickets",
+				"type": "uint256"
+			}
+		],
+		"name": "buyBulkMovieTicket",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
 			}
 		],
 		"name": "buyMovieTicket",
